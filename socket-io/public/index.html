@@ -7,5 +7,24 @@
   </head>
   <body>
     <h2>Start Real Time Chat</h2>
+    <input type="text" id="msg" placeholder="Enter Message" />
+    <button id="btn">Send</button>
+    <div id="messages"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const btn = document.getElementById("btn");
+      const msg = document.getElementById("msg");
+      const displayMsg = document.getElementById("messages");
+      socket.on("message", (message) => {
+        const p = document.createElement("p");
+        p.innerText = message;
+        displayMsg.appendChild(p);
+      });
+      btn.addEventListener("click", (e) => {
+        const message = msg.value;
+        socket.emit("user-message", message);
+      });
+    </script>
   </body>
 </html>

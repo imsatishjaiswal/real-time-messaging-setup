@@ -13,7 +13,10 @@ app.get("/", (req, res) => {
   return res.sendFile(path.resolve("./public/index.html"));
 });
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  socket.on("user-message", (message) => {
+    io.emit("message", message);
+    // console.log("A new user message: ", message);
+  });
 });
 server.listen(port, () => {
   console.log("App is listening on port: ", port);
